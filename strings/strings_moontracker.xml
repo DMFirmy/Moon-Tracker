@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+  <string name="moontracker_tooltip_moonbutton">Configure Campaign Moons</string>
+  <string name="moontracker_configuration_window_title">Moon Tracker Configuration</string>
+</root>

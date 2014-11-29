@@ -1,0 +1,548 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<template name="list_utility_step">
+		<windowlist>
+			<allowdelete />
+			<useallmodules />
+			<gmeditonly />
+			<sortby><control>label</control></sortby>
+			<newfocus>label</newfocus>
+			<script file="common/scripts/list_text.lua" />
+		</windowlist>
+	</template>
+	<template name="list_utility">
+		<list_utility_step>
+			<script>
+				function onInit()
+					super.onInit();
+					if User.isHost() then
+						registerMenuItem(Interface.getString("list_menu_createitem"), "insert", 5);
+					end
+				end
+				
+				function onMenuSelection(selection)
+					if selection == 5 then
+						window.filter.setValue();
+						addEntry();
+					end
+				end
+
+				function onFilter(w)
+					local sFilter = window.filter.getValue();
+					if sFilter ~= "" then
+						if not w.label.getValue():upper():find(sFilter:upper(), 1, true) then
+							return false;
+						end
+					end
+					if not User.isHost() and w.isgmonly.getValue() == 1 then
+						return false;
+					end
+					return true;
+				end
+			</script>
+		</list_utility_step>
+	</template>
+	<template name="filter_utility">
+		<filter_campaign>
+			<script>
+				function onValueChanged()
+					super.onValueChanged();
+					window.list.applyFilter();
+				end
+			</script>
+		</filter_campaign>
+	</template>
+	<template name="button_iadd_utility">
+		<button_iadd_campaign>
+			<script>
+				function onButtonPress()
+					super.onButtonPress();
+					window.filter.setValue();
+				end
+			</script>
+		</button_iadd_campaign>
+	</template>
+	
+	<template name="button_modifierkey">
+		<buttoncontrol>
+			<state frame="buttonup" frameoffset="5,5,5,5" />
+			<state frame="buttondown" frameoffset="5,5,5,5" offset="1,1" />
+			<font>button-white</font>
+			<script>
+				local bInit = false;
+				function onInit()
+					if ModifierStack.getModifierKey(getName()) then
+						setValue(1);
+					end
+					bInit = true;
+				end
+				function onValueChanged()
+					if bInit then
+						if getValue() ~= 0 then
+							ModifierStack.setModifierKey(getName(), true);
+						else
+							ModifierStack.setModifierKey(getName(), false);
+						end
+					end
+				end
+			</script>
+		</buttoncontrol>
+	</template>
+	
+	<!-- Calendar -->
+	<template name="anchor_calendar">
+		<genericcontrol name="contentframe">
+			<anchored>
+				<top parent="contentanchor" anchor="bottom" relation="relative" offset="5" />
+				<left offset="10" />
+				<right offset="-10" />
+				<bottom offset="-15" />
+			</anchored>
+		</genericcontrol>
+	</template>
+	<template name="anchor_calendarlog">
+		<genericcontrol>
+			<anchored height="0">
+				<top parent="title" anchor="bottom" offset="0" />
+				<left parent="" anchor="left" offset="50" />
+				<right parent="" anchor="right" offset="-30" />
+			</anchored>
+			<disabled />
+		</genericcontrol>
+	</template>
+	<template name="list_calendarlog">
+		<windowlist>
+			<anchored to="contentanchor">
+				<top anchor="bottom" relation="relative" offset="5" />
+				<left />
+				<right />
+				<bottom parent="" offset="-35" />
+			</anchored>
+			<footer>footer_narrow</footer>
+			<class>logsmall</class>
+			<datasource>.</datasource>
+			<allowdelete />
+			<sortby>
+				<control>year</control>
+				<control>month</control>
+				<control>day</control>
+			</sortby>
+		</windowlist>
+	</template>
+	
+	<!-- Effects -->
+	<template name="list_effects">
+		<list_utility>
+			<anchored to="contentanchor">
+				<top anchor="bottom" relation="relative" offset="20" />
+				<left offset="5" />
+				<right offset="-10" />
+				<bottom parent="" offset="-75" />
+			</anchored>
+			<frame name="groupbox" offset="15,15,20,15" />
+			<datasource>.</datasource>
+			<class>effectsmall</class>
+			<script>
+				function onDrop(x, y, draginfo)
+					if User.isHost() then
+						local rEffect = ActionEffect.decodeEffectFromDrag(draginfo);
+						if rEffect then
+							local w = addEntry(true);
+							if w then
+								EffectManager.setEffect(w.getDatabaseNode(), rEffect);
+							end
+						end
+						return true;
+					end
+				end
+			</script>
+		</list_utility>
+	</template>
+	
+	<!-- Export -->
+	<template name="frame_export_file">
+		<genericcontrol>
+			<anchored to="contentanchor" height="55">
+				<top anchor="bottom" relation="relative" offset="10" />
+				<left />
+				<right />
+			</anchored>
+			<frame name="groupbox" offset="10,10,10,10" />
+		</genericcontrol>
+	</template>
+	<template name="frame_export_meta">
+		<genericcontrol>
+			<anchored to="contentanchor" height="102">
+				<top anchor="bottom" relation="relative" offset="20" />
+				<left />
+				<right />
+			</anchored>
+			<frame name="groupbox" offset="10,10,10,10" />
+		</genericcontrol>
+	</template>
+	<template name="list_export_records">
+		<windowlist>
+			<anchored to="contentanchor">
+				<top anchor="bottom" relation="relative" offset="40" />
+				<left offset="5" />
+				<right offset="-15" />
+				<bottom parent="" offset="-190" />
+			</anchored>
+			<frame name="groupbox" offset="15,30,25,30" />
+			<class>export_categoryentry</class>
+			<skipempty />
+			<script file="utility/scripts/export_list.lua" />
+		</windowlist>
+	</template>
+	<template name="list_export_tokens">
+		<windowlist>
+			<anchored to="contentanchor" height="60">
+				<left offset="5" />
+				<right offset="-15" />
+				<bottom parent="" offset="-70" />
+			</anchored>
+			<frame name="groupbox" offset="15,30,25,10" />
+			<class>export_token</class>
+			<columns width="22" fillwidth="true" />
+			<skipempty />
+			<allowdelete />
+			<script file="utility/scripts/export_tokens.lua" />
+		</windowlist>
+	</template>
+	<template name="button_export">
+		<button_text>
+			<anchored width="60" height="20">
+				<left anchor="center" offset="-30" />
+				<bottom offset="-30" />
+			</anchored>
+			<state textres="export_button" />
+			<script>
+				function onButtonPress()
+					window.performExport();
+				end
+			</script>
+		</button_text>
+	</template>
+	
+	<!-- Library -->
+	<template name="anchor_library">
+		<genericcontrol>
+			<anchored height="0">
+				<top parent="title" anchor="bottom" offset="0" />
+				<left parent="" anchor="left" offset="45" />
+				<right parent="" anchor="right" offset="-50" />
+			</anchored>
+			<disabled />
+		</genericcontrol>
+	</template>
+	<template name="list_library_books">
+		<windowlist>
+			<anchored to="contentanchor" width="250">
+				<top anchor="bottom" relation="relative" offset="20" />
+				<left />
+				<bottom parent="" offset="-75" />
+			</anchored>
+			<frame name="groupbox" offset="15,15,20,15" />
+			<skipempty />
+			<class>library_booklistentry</class>
+			<datasource>library</datasource>
+			<useallmodules/>
+			<script file="utility/scripts/library_list_book.lua" />
+		</windowlist>
+	</template>
+	<template name="button_library_modules">
+		<button_text>
+			<bounds>125,-50,60,20</bounds>
+			<state textres="library_button_modules" />
+			<script>
+				function onButtonPress()
+					local w = Interface.openWindow("moduleselection", "");
+					w.datafilter.setValue(1);
+				end
+			</script>
+		</button_text>
+	</template>
+	<template name="list_library_pages">
+		<windowlist>
+			<anchored to="booklist" position="right" offset="40,0">
+				<right parent="contentanchor" />
+			</anchored>
+			<frame name="groupbox" offset="15,15,20,15" />
+			<skipempty />
+			<class>library_pagelistentry</class>
+			<child><backcolor>1A40301E</backcolor></child>
+			<child></child>
+			<filter><control>filter</control></filter>
+			<filteron><control>name</control></filteron>
+		</windowlist>
+	</template>
+	<template name="filter_library">
+		<filter>
+			<bounds>330,-50,-45,20</bounds>
+		</filter>
+	</template>
+
+	<!-- Modifiers -->
+	<template name="list_modifiers">
+		<list_utility>
+			<anchored to="contentanchor">
+				<top anchor="bottom" relation="relative" offset="20" />
+				<left offset="5" />
+				<right offset="-10" />
+				<bottom parent="" offset="-75" />
+			</anchored>
+			<frame name="groupbox" offset="15,15,20,15" />
+			<datasource>.</datasource>
+			<class>modifiersmall</class>
+			<script>
+				function onDrop(x, y, draginfo)
+					if User.isHost() then
+						if draginfo.getType() == "number" then
+							local w = addEntry(true);
+							if w then
+								w.label.setValue(draginfo.getDescription());
+								w.bonus.setValue(draginfo.getNumberData());
+							end
+							return true;
+						end
+					end
+				end
+			</script>
+		</list_utility>
+	</template>
+	
+	<!-- Modules -->
+	<template name="list_modules">
+		<windowlist>
+			<anchored to="contentanchor">
+				<top anchor="bottom" relation="relative" offset="20" />
+				<left offset="5" />
+				<right offset="-10" />
+				<bottom parent="" offset="-75" />
+			</anchored>
+			<frame name="groupbox" offset="15,15,20,15" />
+			<class>moduleselection_entry</class>
+			<columns width="300" fillwidth="true" />
+			<skipempty />
+			<script>
+				function onFilter(w)
+					if window.tokenfilter.getValue() ~= 0 then
+						return (w.hastokens.getValue() ~= 0);
+					elseif window.datafilter.getValue() ~= 0 then
+						return (w.hasdata.getValue() ~= 0);
+					end
+					return true;
+				end
+			</script>
+		</windowlist>
+	</template>
+	<template name="button_modules_export">
+		<button_text>
+			<anchored width="60" height="20">
+				<right offset="-43" />
+				<bottom offset="-30" />
+			</anchored>
+			<state textres="module_button_export" />
+			<gmvisibleonly />
+			<script>
+				function onButtonPress()
+					Interface.openWindow("export", "export");
+				end
+			</script>
+		</button_text>
+	</template>
+	<template name="modulepermissioncontrol">
+		<genericcontrol>
+			<anchored width="30" height="31">
+				<left offset="35" />
+				<bottom offset="-25" />
+			</anchored>
+			<cursor hover="hand" />
+			<gmvisibleonly />
+			<script>
+				function onDragStart(button, x, y, draginfo)
+					draginfo.setType("modulepermissions");
+					draginfo.setStringData(permissions[1]);
+					draginfo.setIcon(icon[1]);
+					setIcon(nil);
+					return true;
+				end
+				
+				function onDragEnd(draginfo)
+					setIcon(icon[1]);
+				end
+			</script>
+		</genericcontrol>
+	</template>
+	<template name="button_modules_permission_block">
+		<modulepermissioncontrol>
+			<icon>module_stateblocked</icon>
+			<permissions>disallow</permissions>
+			<tooltip textres="module_block" />
+		</modulepermissioncontrol>
+	</template>
+	<template name="button_modules_permission_allow">
+		<modulepermissioncontrol>
+			<anchored>
+				<left offset="65" />
+			</anchored>
+			<icon>module_stateallowed</icon>
+			<permissions>allow</permissions>
+			<tooltip textres="module_allow" />
+		</modulepermissioncontrol>
+	</template>
+	<template name="button_modules_permission_force">
+		<modulepermissioncontrol>
+			<anchored>
+				<left offset="95" />
+			</anchored>
+			<icon>module_stateautoload</icon>
+			<permissions>autoload</permissions>
+			<tooltip textres="module_force" />
+		</modulepermissioncontrol>
+	</template>
+
+	<!-- Options -->
+	<template name="list_options">
+		<windowlist>
+			<anchored to="contentanchor">
+				<top anchor="bottom" relation="relative" offset="20" />
+				<left offset="5" />
+				<right offset="-10" />
+				<bottom parent="" offset="-35" />
+			</anchored>
+			<frame name="groupbox" offset="15,15,20,15" />
+			<class>options_group</class>
+			<skipempty />
+			<sortby>
+				<control>sort</control>
+				<control>label</control>
+			</sortby>
+		</windowlist>
+	</template>
+	
+	<!-- Token Bag -->
+	<template name="filter_tokens">
+		<filter name="filter">
+			<anchored to="contentanchor" height="20">
+				<top anchor="bottom" relation="relative" offset="10" />
+				<left offset="10" />
+				<right offset="-60" />
+			</anchored>
+		</filter>
+	</template>
+	<template name="button_tokens_zoomout">
+		<buttoncontrol>
+			<anchored to="filter" position="righthigh" offset="10,0" width="20" height="20" />
+			<icon normal="button_zoomout" pressed="button_zoomout_down" />
+			<tooltip textres="tokenbag_zoomout" />
+			<script>
+				function onButtonPress()
+					local z = window.tokens.getZoom();
+					window.tokens.setZoom(z - 0.2);
+				end
+			</script>
+		</buttoncontrol>
+	</template>
+	<template name="button_tokens_zoomin">
+		<buttoncontrol>
+			<anchored to="filter" position="righthigh" offset="35,0" width="20" height="20" />
+			<icon normal="button_zoomin" pressed="button_zoomin_down" />
+			<tooltip textres="tokenbag_zoomin" />
+			<script>
+				function onButtonPress()
+					local z = window.tokens.getZoom();
+					window.tokens.setZoom(z + 0.2);
+				end
+			</script>
+		</buttoncontrol>
+	</template>
+	<template name="tokenbag_tokens">
+		<tokenbag name="tokens">
+			<anchored to="contentanchor">
+				<top anchor="bottom" relation="relative" offset="10" />
+				<left offset="-13" />
+				<right />
+				<bottom parent="" offset="-75" />
+			</anchored>
+			<tokenarea>0,0,-1,-50</tokenarea>
+			<bagbar frame="tokenbagbar" rect="0,-50,-1,50" slotsize="50,50" />
+			<bag>
+				<icon>tokenbag</icon>
+				<top>tokenbagtop</top>
+				<up>tokenbagup</up>
+				<shared>tokenbagshared</shared>
+			</bag>
+			<grid width="50" height="50" />
+			<filter control="filter" />
+			<script>
+				function onInit()
+					if not User.isHost() then
+						setAnchor("bottom", nil, "bottom", "absolute", -40);
+					end
+				end
+			</script>
+		</tokenbag>
+	</template>
+	<template name="scrollbar_tokens">
+		<scrollbar>
+			<anchored to="tokens">
+				<top offset="12" />
+				<bottom offset="-62" />
+			</anchored>
+			<target>tokens</target>
+		</scrollbar>
+	</template>
+	<template name="button_tokens_host">
+		<button_text>
+			<anchored width="70" height="20">
+				<left anchor="center" offset="-125" />
+				<bottom offset="-40" />
+			</anchored>
+			<state textres="tokenbag_button_host" />
+			<gmvisibleonly />
+			<script>
+				function onButtonPress()
+					Interface.openDataFolder("tokens/host");
+				end
+			</script>
+		</button_text>
+	</template>
+	<template name="button_tokens_shared">
+		<button_text>
+			<anchored width="70" height="20">
+				<left anchor="center" offset="-35" />
+				<bottom offset="-40" />
+			</anchored>
+			<state textres="tokenbag_button_shared" />
+			<gmvisibleonly />
+			<script>
+				function onButtonPress()
+					Interface.openDataFolder("tokens/shared");
+				end
+			</script>
+		</button_text>
+	</template>
+	<template name="button_tokens_modules">
+		<button_text>
+			<anchored width="70" height="20">
+				<left anchor="center" offset="55" />
+				<bottom offset="-40" />
+			</anchored>
+			<state textres="tokenbag_button_modules" />
+			<gmvisibleonly />
+			<script>
+				function onButtonPress()
+					local w = Interface.openWindow("moduleselection", "");
+					w.tokenfilter.setValue(1);
+				end
+			</script>
+		</button_text>
+	</template>
+</root>

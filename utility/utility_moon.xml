@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="moontracker_configuration">
+    <frame>calendar</frame>
+    <placement>
+      <size width="480" height="480" />
+      <nosave />
+    </placement>
+    <nodelete />
+		<sheetdata>
+      <windowtitlebar name="title">
+        <resource>moontracker_configuration_window_title</resource>
+      </windowtitlebar>
+
+      <resize_calendar />
+      <close_calendar />
+		</sheetdata>
+	</windowclass>
+</root>
