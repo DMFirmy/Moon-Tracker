@@ -7,7 +7,8 @@
 
 <root>
 	<windowclass name="moontracker_configuration">
-    <frame>calendar</frame>
+    <script file="utility/scripts/moontracker_configuration.lua" />
+    <frame>moontracker_config</frame>
     <placement>
       <size width="480" height="480" />
       <nosave />
@@ -18,8 +19,44 @@
         <resource>moontracker_configuration_window_title</resource>
       </windowtitlebar>
 
-      <resize_calendar />
-      <close_calendar />
+      <genericcontrol name="configframe">
+        <bounds>10, 40,-10,-10</bounds>
+        <frame name="groupbox" />
+        <disabled />
+      </genericcontrol>
+      
+      <list_moons name="moonlist">
+        <anchored to="configframe">
+          <top offset="40" />
+          <left offset="15" />
+          <right offset="-20" />
+          <bottom offset="-15" />
+        </anchored>
+      </list_moons>
+      <scrollbar>
+        <anchored to="moonlist" />
+        <target>moonlist</target>
+      </scrollbar>
+
+      <button_iedit name="moodlist_iedit">
+        <anchored to="moonlist" position="aboveright" offset="5,10" />
+        <target>moonlist</target>
+      </button_iedit>
+      <button_iadd name="moonlist_iadd">
+        <anchored to="moodlist_iedit" position="lefthigh" offset="5,0" />
+        <target>moonlist</target>
+      </button_iadd>
+      
+      <resize_moon />
+      <close_moon />
 		</sheetdata>
 	</windowclass>
+
+  <windowclass name="moonitem">
+    <margins control="0,0,0,2" />
+    <script>
+    </script>
+    <sheetdata>
+    </sheetdata>
+  </windowclass>
 </root>

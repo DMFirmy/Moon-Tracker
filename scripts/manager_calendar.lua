@@ -30,7 +30,7 @@ function onInit()
 end
 
 function initializeDatabase()
-	DB.createNode("calendar.current.moons");
+	DB.createNode("moons");
 end
 
 function registerChangeCallback(fCallback)

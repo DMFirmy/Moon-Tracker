@@ -34,8 +34,9 @@
 
   <base>
 	  <!-- Graphics -->
-	  <includefile source="graphics/graphics_icons.xml" />
-	
+    <includefile source="graphics/graphics_frames.xml" />
+    <includefile source="graphics/graphics_icons.xml" />
+	  
 	  <!-- Strings -->
 	  <includefile source="strings/strings_moontracker.xml" />
     
@@ -43,8 +44,8 @@
     <script name="CalendarManager" file="scripts/manager_calendar.lua" />
 
     <!-- Utilities -->
+    <includefile source="utility/template_moon.xml" />
     <includefile source="utility/utility_calendar.xml" />
-    <includefile source="utility/utility_calendar_log.xml" />
     <includefile source="utility/utility_moon.xml" />
 
   </base>

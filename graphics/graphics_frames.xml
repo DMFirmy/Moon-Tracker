@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<root>
+  <framedef name="moontracker_config">
+    <bitmap file="graphics/frames/charsheet.png" />
+    <offset>25,40,25,25</offset>
+    <insideoffset>0,0,7,7</insideoffset>
+  </framedef>
+</root>
