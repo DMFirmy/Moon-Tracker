@@ -8,6 +8,7 @@
       </anchored>
     </resize>
   </template>
+  
   <template name="close_moon">
     <close>
       <anchored>
@@ -16,12 +17,22 @@
       </anchored>
     </close>
   </template>
+  
   <template name="list_moons">
     <windowlist>
       <script file="utility/scripts/moonlist.lua" />
-      <datasource>.moons</datasource>
+      <datasource>.</datasource>
       <class>moonitem</class>
       <allowdelete />
     </windowlist>
   </template>
+
+  
+  <template name="number_moon">
+    <basicnumber>
+      <nodrag />
+      <min>0</min>
+    </basicnumber>
+  </template>
+  
 </root>

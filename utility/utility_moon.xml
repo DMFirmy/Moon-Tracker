@@ -1,10 +1,4 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-
-<!-- 
-  Please see the license.html file included with this distribution for 
-  attribution and copyright information.
--->
-
 <root>
 	<windowclass name="moontracker_configuration">
     <script file="utility/scripts/moontracker_configuration.lua" />
@@ -15,13 +9,27 @@
     </placement>
     <nodelete />
 		<sheetdata>
+      <genericcontrol name="configframe">
+        <bounds>10, 40,-10,-10</bounds>
+        <frame name="groupbox" />
+        <disabled />
+      </genericcontrol>
       <windowtitlebar name="title">
         <resource>moontracker_configuration_window_title</resource>
       </windowtitlebar>
 
-      <genericcontrol name="configframe">
-        <bounds>10, 40,-10,-10</bounds>
-        <frame name="groupbox" />
+      <genericcontrol name="rightanchor">
+        <anchored to="configframe" width="0" height="0">
+          <top offset="10" />
+          <right offset="-20" />
+        </anchored>
+        <invisible />
+      </genericcontrol>
+      <genericcontrol name="idelete_header">
+        <anchored to="rightanchor" width="20" height="20">
+          <top />
+          <right anchor="left" relation="relative" offset="-5" />
+        </anchored>
         <disabled />
       </genericcontrol>
       
@@ -54,9 +62,50 @@
 
   <windowclass name="moonitem">
     <margins control="0,0,0,2" />
-    <script>
-    </script>
     <sheetdata>
+
+      <number_moon name="period">
+        <bounds>5,2,20,20</bounds>
+        <tabtarget next="name" />
+        <default>1</default>
+      </number_moon>
+
+      <genericcontrol name="rightanchor">
+        <anchored width="0" height="0">
+          <top />
+          <right />
+        </anchored>
+        <invisible />
+      </genericcontrol>
+      <button_idelete name="idelete">
+        <anchored width="20" height="20">
+          <top offset="2" />
+          <right parent="rightanchor" anchor="left" relation="relative" offset="-5" />
+        </anchored>
+      </button_idelete>
+      <number_moon name="shift">
+        <anchored width="30" height="20">
+          <top offset="2" />
+          <right parent="rightanchor" anchor="left" relation="relative" offset="-10" />
+        </anchored>
+        <delaykeyupdate />
+        <tabtarget prev="name" />
+      </number_moon>
+
+      <string_textlistitem name="name">
+        <anchored position="insidetopleft" offset="35,2" height="20">
+          <right parent="rightanchor" anchor="left" relation="current" offset="-5" />
+        </anchored>
+        <tabtarget next="shift" prev="period" />
+      </string_textlistitem>
+      
+    </sheetdata>
+  </windowclass>
+
+  <windowclass name="moonphase">
+    <margins control="0,0,0,2" />
+    <sheetdata>
+      <simplestring name="name" />
     </sheetdata>
   </windowclass>
 </root>

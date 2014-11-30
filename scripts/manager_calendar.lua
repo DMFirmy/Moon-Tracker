@@ -1,36 +1,19 @@
--- 
--- Please see the license.html file included with this distribution for 
--- attribution and copyright information.
---
 
+---
+--- Arrays for storing callback functions
+---
 local aLunarDayCalc = {};
 local aMonthVarCalc = {};
-
 local callbacks = {};
 
 ---
---- This function has been modified to include a launch message and perform some initialization that the CoreRPG
---- implementation of this file does not perform.
+--- Initialization
 ---
 function onInit()
-
-	-- send launch message
-	local msg = {sender = "", font = "emotefont"};
-	msg.text = "DMFirmy's Moon Tracker loaded.";
-	ChatManager.registerLaunchMessage(msg);
-
-	if User.isHost() then
-		initializeDatabase();
-	end
 	aLunarDayCalc["gregorian"] = calcGregorianLunarDay;
 	aMonthVarCalc["gregorian"] = calcGregorianMonthVar;
 		
-	DB.addHandler("calendar.current.year", "onUpdate", onCalendarYearUpdated);
 	DB.addHandler("calendar.data", "onChildAdded", onCalendarChanged);
-end
-
-function initializeDatabase()
-	DB.createNode("moons");
 end
 
 function registerChangeCallback(fCallback)
@@ -422,60 +405,4 @@ function select(nodeSource)
 	end
 	DB.copyNode(nodeSource, "calendar.data");
 	DB.setValue("calendar.data.complete", "number", 1);
-end
-
----
---- MOON TRACKER SPECIFIC CODE
----
-
- -- Hard Coded test values
-local nMoons = 3;
-local aMoonNames = { -- String Names for each moon
-	"Moon1", "Moon2", "Moon3"
-};
-local aMoonPeriods = { -- The number of days for each moon's period
-	10, 30, 360
-};
-local aMoonShift = { -- The number of days for each moon's period
-	0, 0, 0
-};
-local aMoonPhases = { -- String names for each moon phase
-	"New Moon", "Waxing Crescent", "First Quarter", "Waxing Gibbous", "Full Moon", "Waning Gibbous", "Last Quarter", "Waning Crescent"
-};
-local aPhaseText = { -- String symbols for each moon phase
-    " - ", "  )", " [)", "+[)", "(+)", "(]+", "(] ", "(  "
-};
-
----
---- This function is used to calculate the phases of the moon for every day in the current year.
----
-function onCalendarYearUpdated()
-	local nYear = getCurrentYear();
-	local epoch = 0;
-	local nMonths = getMonthsInYear();
-	local nFirstDay = getLunarDay(nYear, 1, 1);
-	local y = nFirstDay;
-	local nDaysInWeek = getDaysInWeek();
-
-	for nCurrentYear = 0, nYear - 1 do		
-		for nCurrentMonth = 1, nMonths do
-			epoch = epoch + getDaysInMonth(nCurrentMonth, nCurrentYear);
-		end
-	end
-	for nCurrentMonth = 1, nMonths do
-		for nCurrentDay = 1, getDaysInMonth(nCurrentMonth) do
-			local output = "";
-			for nCurrentMoon = 1, nMoons do
-				local cycle = aMoonPeriods[nCurrentMoon];
-				local x = ((epoch - aMoonShift[nCurrentMoon]) / cycle);
-				local f = x - math.floor(x);
-				local phase = math.floor(f*8);
-
-				output = output .. "    " .. aPhaseText[phase + 1];
-			end
-			print(output)
-			y = y+1;
-			epoch = epoch + 1;
-		end
-	end
 end

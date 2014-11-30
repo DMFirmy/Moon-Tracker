@@ -8,11 +8,19 @@ end
 
 function onClose()
 end
+
 function update()
+	local bEditMode = (window.moodlist_iedit.getValue() == 1);
+	window.idelete_header.setVisible(bEditMode);
+	for _,w in ipairs(getWindows()) do
+		w.idelete.setVisibility(bEditMode);
+	end
 end
 
 function addEntry(bFocus)
-	local w = createWindow();
-
-	return w;
+	local oWindow = createWindow();
+	if bFocus then
+		oWindow["name"].setFocus();
+	end
+	return oWindow;
 end

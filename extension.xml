@@ -42,6 +42,7 @@
     
     <!-- High-level scripts -->
     <script name="CalendarManager" file="scripts/manager_calendar.lua" />
+    <script name="MoonManager" file="scripts/manager_moon.lua" />
 
     <!-- Utilities -->
     <includefile source="utility/template_moon.xml" />

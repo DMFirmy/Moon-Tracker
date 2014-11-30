@@ -1,10 +1,9 @@
--- 
--- Please see the license.html file included with this distribution for 
--- attribution and copyright information.
---
+local hasMoons = false;
 
 function onInit()
 	buildCalendarWindows();
+	DB.addHandler("moons.moonlist","onChildAdded", onMoonCountUpdated);
+	DB.addHandler("moons.moonlist","onChildDeleted", onMoonCountUpdated);
 end
 
 function rebuildCalendarWindows()
@@ -13,6 +12,8 @@ function rebuildCalendarWindows()
 end
 
 function buildCalendarWindows()
+	setMoonFrame();
+
 	local nYear = CalendarManager.getCurrentYear();
 	local aLunarWeek = CalendarManager.getLunarWeek();
 	local nMonthsInYear = CalendarManager.getMonthsInYear();
@@ -63,5 +64,32 @@ function scrollToCampaignDate()
 			scrollToWindow(v);
 			break;
 		end
+	end
+end
+
+---
+--- This function gets called whenever a moon is added or deleted to rebuild the calendar window.
+---
+function onMoonCountUpdated()
+	rebuildCalendarWindows();
+end
+
+---
+--- This function will set the bounds for the list frame and hide the moons frame when
+--- there are no moons defined.
+---
+function setMoonFrame()
+	hasMoons = false;
+	local moons = DB.getChildren("moons.moonlist");
+    for _,v in pairs(moons) do
+        hasMoons = true;
+        break;
+    end
+    if hasMoons then
+		setStaticBounds( 25,135,-30,-65 );
+		window.moons.setVisible(true);
+	else
+		setStaticBounds( 25,75,-30,-65 );
+		window.moons.setVisible(false);
 	end
 end
