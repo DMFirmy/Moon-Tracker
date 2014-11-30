@@ -215,7 +215,21 @@
         <bounds>10,60,-10,60</bounds>
         <frame name="groupbox" />
         <class>moonphase</class>
+        <columns>
+          <width>200</width>
+          <fillwidth />
+        </columns>
         <skipempty />
+        <script>
+            function addEntry(oMoon, nEpoch)
+	              local oWindow = createWindow();
+	              local phase = MoonManager.calculatePhase(oMoon, nEpoch);
+                local name = MoonManager.getPhaseName(phase);
+		            oWindow["name"].setValue(name);
+		            oWindow["moonname"].setValue(oMoon.getChild("name").getValue());
+	              return oWindow;
+            end
+        </script>
       </windowlist>
 
 			<windowlist name="list">

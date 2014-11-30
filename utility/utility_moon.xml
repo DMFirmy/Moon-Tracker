@@ -105,7 +105,19 @@
   <windowclass name="moonphase">
     <margins control="0,0,0,2" />
     <sheetdata>
-      <simplestring name="name" />
+      <anchor_column name="columnanchor" />
+      <simplestring name="moonname">
+        <anchored>
+          <top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
+          <left parent="columnanchor" anchor="right" relation="relative" offset="10" />
+        </anchored>
+      </simplestring>
+      <simplestring name="name">
+        <anchored>
+          <top parent="moonname" anchor="bottom" relation="relative" offset="0" />
+          <left parent="moonname" anchor="left" relation="relative" offset="0" />
+        </anchored>
+      </simplestring>
     </sheetdata>
   </windowclass>
 </root>

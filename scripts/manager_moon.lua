@@ -47,13 +47,7 @@ function onCalendarYearUpdated()
 
 	local epochyear = DB.getValue("moons.epochyear", 0);
 	local epoch = DB.getValue("moons.epochday", 0);
-	local tMoons = DB.getChildren("moons.moonlist");
-	local aMoons = {};
-			
-	for k,v in pairs(tMoons) do
-		table.insert(aMoons, v);
-	end
-	table.sort(aMoons, function(a,b) return a.getChild("period").getValue() < b.getChild("period").getValue() end);
+	local aMoons = getMoons();
 
 	if epochyear ~= nYear - 1 then
 		epoch = calculateEpochDays(nYear, nMonths);
@@ -75,6 +69,20 @@ function onCalendarYearUpdated()
 			epoch = epoch + 1;
 		end
 	end
+end
+
+---
+--- This function gets an array filled with the moonlist database entries, sorted by period (ASC)
+---
+function getMoons()	
+	local tMoons = DB.getChildren("moons.moonlist");
+	local aMoons = {};
+			
+	for k,v in pairs(tMoons) do
+		table.insert(aMoons, v);
+	end
+	table.sort(aMoons, function(a,b) return a.getChild("period").getValue() < b.getChild("period").getValue() end);
+	return aMoons;
 end
 
 ---

@@ -54,6 +54,9 @@ function setSelectedDate(nMonth, nDay)
 	nSelDay = nDay;
 
 	updateDisplay();
+	populateMoonPhaseDisplay(nMonth, nDay);
+	
+
 	list.scrollToCampaignDate();
 end
 
@@ -143,7 +146,7 @@ function updateDisplay()
 		button_view.setVisible(false);
 		button_addlog.setVisible(true);
 	end
-	
+
 	for _,v in pairs(list.getWindows()) do
 		local nMonth = v.month.getValue();
 
@@ -176,6 +179,29 @@ function updateDisplay()
 				
 				y.setState(bCurrDay, bSelDay, bHoliday, nodeEvent);
 			end
+		end
+	end
+end
+
+function populateMoonPhaseDisplay(nMonth, nDay)
+	self.moons.closeAll();
+	if nSelMonth and nSelDay then
+		local epoch = DB.getValue("moons.epochday", 0);
+		local moons = MoonManager.getMoons();
+
+		local days;
+		for i = 1, nMonth do
+			if i == nMonth then
+				days = nDay;
+			else
+				days = CalendarManager.getDaysInMonth(i);
+			end
+
+			epoch = epoch + days;
+		end
+
+		for _,m in ipairs(moons) do
+			self.moons.addEntry(m, epoch);
 		end
 	end
 end
