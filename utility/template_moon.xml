@@ -26,13 +26,26 @@
       <allowdelete />
     </windowlist>
   </template>
-
   
   <template name="number_moon">
     <basicnumber>
       <nodrag />
       <min>0</min>
     </basicnumber>
+  </template>
+
+  <template name="scrollbar_moons">
+    <scrollbar>
+      <anchored to="moons" />
+      <target>moons</target>
+    </scrollbar>
+  </template>
+
+  <template name="scrollbar_moonlist">
+    <scrollbar>
+      <anchored to="moonlist" />
+      <target>moonlist</target>
+    </scrollbar>
   </template>
   
 </root>

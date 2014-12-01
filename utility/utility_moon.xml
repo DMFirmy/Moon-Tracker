@@ -41,10 +41,7 @@
           <bottom offset="-15" />
         </anchored>
       </list_moons>
-      <scrollbar>
-        <anchored to="moonlist" />
-        <target>moonlist</target>
-      </scrollbar>
+      <scrollbar_moonlist />
 
       <button_iedit name="moodlist_iedit">
         <anchored to="moonlist" position="aboveright" offset="5,10" />
@@ -63,13 +60,11 @@
   <windowclass name="moonitem">
     <margins control="0,0,0,2" />
     <sheetdata>
-
       <number_moon name="period">
         <bounds>5,2,20,20</bounds>
         <tabtarget next="name" />
         <default>1</default>
       </number_moon>
-
       <genericcontrol name="rightanchor">
         <anchored width="0" height="0">
           <top />
@@ -91,14 +86,12 @@
         <delaykeyupdate />
         <tabtarget prev="name" />
       </number_moon>
-
       <string_textlistitem name="name">
         <anchored position="insidetopleft" offset="35,2" height="20">
           <right parent="rightanchor" anchor="left" relation="current" offset="-5" />
         </anchored>
         <tabtarget next="shift" prev="period" />
       </string_textlistitem>
-      
     </sheetdata>
   </windowclass>
 
@@ -107,17 +100,25 @@
     <sheetdata>
       <anchor_column name="columnanchor" />
       <simplestring name="moonname">
-        <anchored>
-          <top parent="columnanchor" anchor="bottom" relation="relative" offset="20" />
+        <anchored width="100">
+          <top parent="columnanchor" anchor="bottom" relation="relative" offset="5" />
           <left parent="columnanchor" anchor="right" relation="relative" offset="10" />
+          <right />
         </anchored>
       </simplestring>
       <simplestring name="name">
-        <anchored>
+        <anchored width="100">
           <top parent="moonname" anchor="bottom" relation="relative" offset="0" />
           <left parent="moonname" anchor="left" relation="relative" offset="0" />
+          <right />
         </anchored>
       </simplestring>
+      <genericcontrol name="phaseicon">
+        <anchored width="30" height="30">
+          <top parent="columnanchor" anchor="bottom" relation="absolute" offset="5" />
+          <left parent="columnanchor" anchor="right" relation="absolute" offset="115" />
+        </anchored>
+      </genericcontrol>
     </sheetdata>
   </windowclass>
 </root>

@@ -212,13 +212,10 @@
 			</buttoncontrol>
 
       <windowlist name="moons">
-        <bounds>10,60,-10,60</bounds>
-        <frame name="groupbox" />
+        <bounds>25,75,-30,30</bounds>
+        <frame name="groupbox" offset="15,15,20,15" />
         <class>moonphase</class>
-        <columns>
-          <width>200</width>
-          <fillwidth />
-        </columns>
+        <columns width="155" fillwidth="true" />
         <skipempty />
         <script>
             function addEntry(oMoon, nEpoch)
@@ -227,10 +224,12 @@
                 local name = MoonManager.getPhaseName(phase);
 		            oWindow["name"].setValue(name);
 		            oWindow["moonname"].setValue(oMoon.getChild("name").getValue());
+                oWindow["phaseicon"].setIcon("moonphase"..tostring(phase));
 	              return oWindow;
             end
         </script>
       </windowlist>
+      <scrollbar_moons />
 
 			<windowlist name="list">
 				<bounds>25,135,-30,-65</bounds>
