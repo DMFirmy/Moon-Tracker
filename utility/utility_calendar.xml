@@ -33,11 +33,16 @@
                 local oNode = DB.findNode("moons.moonlist");
                 if oNode then
                         local oWindow = Interface.openWindow("moontracker_configuration",oNode.getNodeName());
+                        oWindow.registerCloseCallback(onMoonTrackerConfigurationClosed)
                         if oWindow and
                                 oWindow.name then
                                 oWindow.name.setFocus();
                         end
                 end
+            end
+            
+            function onMoonTrackerConfigurationClosed()
+                window.populateMoonPhaseDisplay();
             end
           </script>
         </script>
@@ -211,6 +216,7 @@
 				</script>
 			</buttoncontrol>
 
+      <!-- This list shows the phases for each moon, if they are defined.-->
       <windowlist name="moons">
         <bounds>25,75,-30,30</bounds>
         <frame name="groupbox" offset="15,15,20,15" />
@@ -337,4 +343,31 @@
 			</stringcontrol>
 		</sheetdata>
 	</windowclass>
+
+  <!-- This represents the phase for the selected calendar day for a single moon. -->
+  <windowclass name="moonphase">
+    <sheetdata>
+      <anchor_column name="columnanchor" />
+      <simplestring name="moonname">
+        <anchored>
+          <top parent="columnanchor" anchor="bottom" relation="relative" offset="5" />
+          <left parent="columnanchor" anchor="right" relation="relative" offset="10" />
+          <right />
+        </anchored>
+      </simplestring>
+      <simplestring name="name">
+        <anchored>
+          <top parent="moonname" anchor="bottom" relation="relative" offset="0" />
+          <left parent="moonname" anchor="left" relation="relative" offset="0" />
+          <right />
+        </anchored>
+      </simplestring>
+      <genericcontrol name="phaseicon">
+        <anchored width="24" height="24">
+          <top parent="columnanchor" anchor="bottom" relation="absolute" offset="5" />
+          <left parent="columnanchor" anchor="right" relation="absolute" offset="115" />
+        </anchored>
+      </genericcontrol>
+    </sheetdata>
+  </windowclass>
 </root>

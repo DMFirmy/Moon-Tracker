@@ -6,9 +6,12 @@
 local aEvents = {};
 local nSelMonth = 0;
 local nSelDay = 0;
+local bEnableBuild = true;
 
 function onInit()
 	DB.addHandler("calendar.log", "onChildUpdate", onEventsChanged);
+	DB.addHandler("moons.moonlist","onChildAdded", onMoonCountUpdated);
+	DB.addHandler("moons.moonlist","onChildDeleted", onMoonCountUpdated);
 	buildEvents();
 	
 	nSelMonth = currentmonth.getValue();
@@ -19,6 +22,8 @@ end
 
 function onClose()
 	DB.removeHandler("calendar.log", "onChildUpdate", onEventsChanged);
+	DB.removeHandler("moons.moonlist","onChildAdded", onMoonCountUpdated);
+	DB.removeHandler("moons.moonlist","onChildDeleted", onMoonCountUpdated);
 end
 
 function buildEvents()
@@ -39,7 +44,6 @@ function buildEvents()
 	end
 end
 
-local bEnableBuild = true;
 function onEventsChanged(bListChanged)
 	if bListChanged then
 		if bEnableBuild then
@@ -56,7 +60,6 @@ function setSelectedDate(nMonth, nDay)
 	updateDisplay();
 	populateMoonPhaseDisplay(nMonth, nDay);
 	
-
 	list.scrollToCampaignDate();
 end
 
@@ -119,11 +122,15 @@ function onDateChanged()
 end
 
 function onYearChanged()
+	MoonManager.calculateEpochDay();
+	setMoonFrame();
 	list.rebuildCalendarWindows();
 	onDateChanged();
 end
 
 function onCalendarChanged()
+	MoonManager.calculateEpochDay();
+	setMoonFrame();
 	list.rebuildCalendarWindows();
 	setSelectedDate(currentmonth.getValue(), currentday.getValue());
 end
@@ -183,8 +190,16 @@ function updateDisplay()
 	end
 end
 
+---
+--- This function populates the display with the moon phases for all defined moons for the day selected.
+---
 function populateMoonPhaseDisplay(nMonth, nDay)
-	self.moons.closeAll();
+	nMonth = nMonth or nSelMonth;
+	nDay = nDay or nSelDay;
+
+	if self.moons and self.moons.closeAll then
+		self.moons.closeAll();
+	end
 	if nSelMonth and nSelDay then
 		local epoch = DB.getValue("moons.epochday", 0);
 		local moons = MoonManager.getMoons();
@@ -200,8 +215,39 @@ function populateMoonPhaseDisplay(nMonth, nDay)
 			epoch = epoch + days;
 		end
 
-		for _,m in ipairs(moons) do
-			self.moons.addEntry(m, epoch);
+		if self.moons and self.moons.addEntry then
+			for _,m in ipairs(moons) do
+				self.moons.addEntry(m, epoch);
+			end
 		end
+		
 	end
+end
+
+---
+--- This function will set the bounds for the list frame and hide the moons frame when
+--- there are no moons defined.
+---
+function setMoonFrame()
+	local hasMoons = false;
+	local moons = DB.getChildren("moons.moonlist");
+    for _,v in pairs(moons) do
+        hasMoons = true;
+        break;
+    end
+    if hasMoons then
+		self.list.setStaticBounds( 25,135,-30,-65 );
+		self.moons.setVisible(true);
+	else
+		self.list.setStaticBounds( 25,75,-30,-65 );
+		self.moons.setVisible(false);
+	end
+end
+
+
+---
+--- This function gets called whenever a moon is added or deleted to rebuild the calendar window.
+---
+function onMoonCountUpdated()
+	setMoonFrame();
 end

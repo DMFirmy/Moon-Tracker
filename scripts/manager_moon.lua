@@ -1,4 +1,6 @@
- -- Hard Coded test values
+ ---
+ --- This array holds the string names for each moon phase.
+ ---
 local aMoonPhases = { -- String names for each moon phase
 	"New Moon", "Waxing Crescent", "First Quarter", "Waxing Gibbous", "Full Moon", "Waning Gibbous", "Last Quarter", "Waning Crescent"
 };
@@ -17,10 +19,11 @@ function onInit()
 	if User.isHost() then
 		initializeDatabase();
 	end
-		
-	DB.addHandler("calendar.current.year", "onUpdate", onCalendarYearUpdated);
 end
 
+---
+--- This function gets the string name for the current moon phase. 
+---
 function getPhaseName(nPhase)
 	return aMoonPhases[nPhase];
 end
@@ -39,7 +42,7 @@ end
 ---
 --- This function is used to calculate the phases of the moon for every day in the current year.
 ---
-function onCalendarYearUpdated()
+function calculateEpochDay()
 	local nYear = CalendarManager.getCurrentYear();
 	local nMonths = CalendarManager.getMonthsInYear();
 	local nFirstDay = CalendarManager.getLunarDay(nYear, 1, 1);
@@ -50,7 +53,7 @@ function onCalendarYearUpdated()
 	local aMoons = getMoons();
 
 	if epochyear ~= nYear - 1 then
-		epoch = calculateEpochDays(nYear, nMonths);
+		epoch = getEpochDay(nYear, nMonths);
 		
 		DB.setValue("moons.epochyear", "number", nYear - 1);
 		DB.setValue("moons.epochday", "number", epoch);
@@ -58,14 +61,6 @@ function onCalendarYearUpdated()
 
 	for nCurrentMonth = 1, nMonths do
 		for nCurrentDay = 1, CalendarManager.getDaysInMonth(nCurrentMonth) do
-			
-			local output = "";
-			for nCurrentMoon = 1, #(aMoons) do
-				local phase = calculatePhase(aMoons[nCurrentMoon], epoch);
-				output = output .. "    " .. getPhaseName(phase);
-			end
-			print(output)
-
 			epoch = epoch + 1;
 		end
 	end
@@ -85,6 +80,18 @@ function getMoons()
 	return aMoons;
 end
 
+function sortMoons(a, b)
+	local aPeriod = a.getChild("period").getValue();
+	local bPeriod = b.getChild("period").getValue();
+	if aPeriod == bPeriod then
+		local aName = a.getChild("name").getValue();
+		local bName = b.getChild("name").getValue();
+
+		return aName > bName;
+	else
+		return aPeriod > bPeriod;
+	end
+end
 ---
 --- This function calculates the current moon phase based on the epoch day provided
 ---
@@ -105,7 +112,7 @@ end
 --- nYear [number] (optional): The year to calculate the epoch for. Defaults to CalendarManager.getCurrentYear().
 --- nMonths [number] (optional): The number of months in the year. Defaults to CalendarManager.getMonthsInYear();
 ---
-function calculateEpochDays(nYear, nMonths)
+function getEpochDay(nYear, nMonths)
 	nYear = nYear or CalendarManager.getCurrentYear();
 	nMonths = nMonths or CalendarManager.getMonthsInYear();
 

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
 	<windowclass name="moontracker_configuration">
     <script file="utility/scripts/moontracker_configuration.lua" />
@@ -10,7 +10,7 @@
     <nodelete />
 		<sheetdata>
       <genericcontrol name="configframe">
-        <bounds>10, 40,-10,-10</bounds>
+        <bounds>10, 10,-10,-10</bounds>
         <frame name="groupbox" />
         <disabled />
       </genericcontrol>
@@ -20,22 +20,50 @@
 
       <genericcontrol name="rightanchor">
         <anchored to="configframe" width="0" height="0">
-          <top offset="10" />
-          <right offset="-20" />
+          <top />
+          <right offset="-10" />
         </anchored>
         <invisible />
       </genericcontrol>
       <genericcontrol name="idelete_header">
         <anchored to="rightanchor" width="20" height="20">
           <top />
-          <right anchor="left" relation="relative" offset="-5" />
+          <right anchor="left" relation="relative" offset="-10" />
         </anchored>
         <disabled />
+        <invisible />
       </genericcontrol>
-      
+
+      <label name="shift_label">
+        <anchored to="configframe" width="30" height="20">
+          <top offset="40" />
+          <right parent="idelete_header" anchor="left" relation="relative" offset="-5" />
+        </anchored>
+        <center />
+        <static textres="moontracker_configuration_shift_header" />
+        <tooltip textres="moontracker_configuration_shift_tooltip" />
+      </label>
+      <label name="period_label">
+        <anchored to="configframe" width="40" height="20">
+          <top offset="40" />
+          <right parent="shift_label" anchor="left" relation="relative" offset="-5" />
+        </anchored>
+        <static textres="moontracker_configuration_period_header" />
+        <tooltip textres="moontracker_configuration_period_tooltip" />
+        <center />
+      </label>
+      <label name="name_label">
+        <anchored to="configframe" height="20">
+          <top offset="40" />
+          <left offset="15" />
+          <right parent="period_label" anchor="left" relation="relative" offset="-10" />
+        </anchored>
+        <center />
+        <static textres="moontracker_configuration_name_header" />
+      </label>
       <list_moons name="moonlist">
         <anchored to="configframe">
-          <top offset="40" />
+          <top offset="70" />
           <left offset="15" />
           <right offset="-20" />
           <bottom offset="-15" />
@@ -44,7 +72,7 @@
       <scrollbar_moonlist />
 
       <button_iedit name="moodlist_iedit">
-        <anchored to="moonlist" position="aboveright" offset="5,10" />
+        <anchored to="moonlist" position="aboveright" offset="5,30" />
         <target>moonlist</target>
       </button_iedit>
       <button_iadd name="moonlist_iadd">
@@ -52,7 +80,6 @@
         <target>moonlist</target>
       </button_iadd>
       
-      <resize_moon />
       <close_moon />
 		</sheetdata>
 	</windowclass>
@@ -60,11 +87,6 @@
   <windowclass name="moonitem">
     <margins control="0,0,0,2" />
     <sheetdata>
-      <number_moon name="period">
-        <bounds>5,2,20,20</bounds>
-        <tabtarget next="name" />
-        <default>1</default>
-      </number_moon>
       <genericcontrol name="rightanchor">
         <anchored width="0" height="0">
           <top />
@@ -75,50 +97,32 @@
       <button_idelete name="idelete">
         <anchored width="20" height="20">
           <top offset="2" />
-          <right parent="rightanchor" anchor="left" relation="relative" offset="-5" />
+          <right parent="rightanchor" anchor="left" relation="relative" offset="0" />
         </anchored>
       </button_idelete>
       <number_moon name="shift">
-        <anchored width="30" height="20">
+        <anchored width="20" height="20">
           <top offset="2" />
           <right parent="rightanchor" anchor="left" relation="relative" offset="-10" />
         </anchored>
         <delaykeyupdate />
-        <tabtarget prev="name" />
+        <tabtarget prev="period" />
+        <default>0</default>
+      </number_moon>
+      <number_moon name="period">
+        <anchored width="30" height="20">
+          <top offset="2" />
+          <right parent="shift" anchor="left" relation="relative" offset="-10" />
+        </anchored>
+        <tabtarget next="shift" prev="name"/>
+        <default>30</default>
       </number_moon>
       <string_textlistitem name="name">
-        <anchored position="insidetopleft" offset="35,2" height="20">
-          <right parent="rightanchor" anchor="left" relation="current" offset="-5" />
+        <anchored position="insidetopleft" offset="10,2" height="20">
+          <right parent="period" anchor="left" relation="relative" offset="-10" />
         </anchored>
-        <tabtarget next="shift" prev="period" />
+        <tabtarget next="period" />
       </string_textlistitem>
-    </sheetdata>
-  </windowclass>
-
-  <windowclass name="moonphase">
-    <margins control="0,0,0,2" />
-    <sheetdata>
-      <anchor_column name="columnanchor" />
-      <simplestring name="moonname">
-        <anchored width="100">
-          <top parent="columnanchor" anchor="bottom" relation="relative" offset="5" />
-          <left parent="columnanchor" anchor="right" relation="relative" offset="10" />
-          <right />
-        </anchored>
-      </simplestring>
-      <simplestring name="name">
-        <anchored width="100">
-          <top parent="moonname" anchor="bottom" relation="relative" offset="0" />
-          <left parent="moonname" anchor="left" relation="relative" offset="0" />
-          <right />
-        </anchored>
-      </simplestring>
-      <genericcontrol name="phaseicon">
-        <anchored width="30" height="30">
-          <top parent="columnanchor" anchor="bottom" relation="absolute" offset="5" />
-          <left parent="columnanchor" anchor="right" relation="absolute" offset="115" />
-        </anchored>
-      </genericcontrol>
     </sheetdata>
   </windowclass>
 </root>
