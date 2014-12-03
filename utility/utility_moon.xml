@@ -1,128 +1,130 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
+	<!-- This defines the Moon Tracker Configuration window -->
 	<windowclass name="moontracker_configuration">
-    <script file="utility/scripts/moontracker_configuration.lua" />
-    <frame>moontracker_config</frame>
-    <placement>
-      <size width="480" height="480" />
-      <nosave />
-    </placement>
-    <nodelete />
+		<script file="utility/scripts/moontracker_configuration.lua" />
+		<frame>moontracker_config</frame>
+		<placement>
+			<size width="480" height="480" />
+			<nosave />
+		</placement>
+		<nodelete />
 		<sheetdata>
-      <genericcontrol name="configframe">
-        <bounds>10, 10,-10,-10</bounds>
-        <frame name="groupbox" />
-        <disabled />
-      </genericcontrol>
-      <windowtitlebar name="title">
-        <resource>moontracker_configuration_window_title</resource>
-      </windowtitlebar>
+			<genericcontrol name="configframe">
+				<bounds>10, 10,-10,-10</bounds>
+				<frame name="groupbox" />
+				<disabled />
+			</genericcontrol>
+			<windowtitlebar name="title">
+				<resource>moontracker_configuration_window_title</resource>
+			</windowtitlebar>
 
-      <genericcontrol name="rightanchor">
-        <anchored to="configframe" width="0" height="0">
-          <top />
-          <right offset="-10" />
-        </anchored>
-        <invisible />
-      </genericcontrol>
-      <genericcontrol name="idelete_header">
-        <anchored to="rightanchor" width="20" height="20">
-          <top />
-          <right anchor="left" relation="relative" offset="-10" />
-        </anchored>
-        <disabled />
-        <invisible />
-      </genericcontrol>
+			<genericcontrol name="rightanchor">
+				<anchored to="configframe" width="0" height="0">
+					<top />
+					<right offset="-10" />
+				</anchored>
+				<invisible />
+			</genericcontrol>
+			<genericcontrol name="idelete_header">
+				<anchored to="rightanchor" width="20" height="20">
+					<top />
+					<right anchor="left" relation="relative" offset="-10" />
+				</anchored>
+				<disabled />
+				<invisible />
+			</genericcontrol>
 
-      <label name="shift_label">
-        <anchored to="configframe" width="30" height="20">
-          <top offset="40" />
-          <right parent="idelete_header" anchor="left" relation="relative" offset="-5" />
-        </anchored>
-        <center />
-        <static textres="moontracker_configuration_shift_header" />
-        <tooltip textres="moontracker_configuration_shift_tooltip" />
-      </label>
-      <label name="period_label">
-        <anchored to="configframe" width="40" height="20">
-          <top offset="40" />
-          <right parent="shift_label" anchor="left" relation="relative" offset="-5" />
-        </anchored>
-        <static textres="moontracker_configuration_period_header" />
-        <tooltip textres="moontracker_configuration_period_tooltip" />
-        <center />
-      </label>
-      <label name="name_label">
-        <anchored to="configframe" height="20">
-          <top offset="40" />
-          <left offset="15" />
-          <right parent="period_label" anchor="left" relation="relative" offset="-10" />
-        </anchored>
-        <center />
-        <static textres="moontracker_configuration_name_header" />
-      </label>
-      <list_moons name="moonlist">
-        <anchored to="configframe">
-          <top offset="70" />
-          <left offset="15" />
-          <right offset="-20" />
-          <bottom offset="-15" />
-        </anchored>
-      </list_moons>
-      <scrollbar_moonlist />
+			<label name="shift_label">
+				<anchored to="configframe" width="30" height="20">
+					<top offset="40" />
+					<right parent="idelete_header" anchor="left" relation="relative" offset="-5" />
+				</anchored>
+				<center />
+				<static textres="moontracker_configuration_shift_header" />
+				<tooltip textres="moontracker_configuration_shift_tooltip" />
+			</label>
+			<label name="period_label">
+				<anchored to="configframe" width="40" height="20">
+					<top offset="40" />
+					<right parent="shift_label" anchor="left" relation="relative" offset="-5" />
+				</anchored>
+				<static textres="moontracker_configuration_period_header" />
+				<tooltip textres="moontracker_configuration_period_tooltip" />
+				<center />
+			</label>
+			<label name="name_label">
+				<anchored to="configframe" height="20">
+					<top offset="40" />
+					<left offset="15" />
+					<right parent="period_label" anchor="left" relation="relative" offset="-10" />
+				</anchored>
+				<center />
+				<static textres="moontracker_configuration_name_header" />
+			</label>
+			<list_moons name="moonlist">
+				<anchored to="configframe">
+					<top offset="70" />
+					<left offset="15" />
+					<right offset="-20" />
+					<bottom offset="-15" />
+				</anchored>
+			</list_moons>
+			<scrollbar_moonlist />
 
-      <button_iedit name="moodlist_iedit">
-        <anchored to="moonlist" position="aboveright" offset="5,30" />
-        <target>moonlist</target>
-      </button_iedit>
-      <button_iadd name="moonlist_iadd">
-        <anchored to="moodlist_iedit" position="lefthigh" offset="5,0" />
-        <target>moonlist</target>
-      </button_iadd>
-      
-      <close_moon />
+			<button_iedit name="moodlist_iedit">
+				<anchored to="moonlist" position="aboveright" offset="5,30" />
+				<target>moonlist</target>
+			</button_iedit>
+			<button_iadd name="moonlist_iadd">
+				<anchored to="moodlist_iedit" position="lefthigh" offset="5,0" />
+				<target>moonlist</target>
+			</button_iadd>
+
+			<close_moon />
 		</sheetdata>
 	</windowclass>
-
-  <windowclass name="moonitem">
-    <margins control="0,0,0,2" />
-    <sheetdata>
-      <genericcontrol name="rightanchor">
-        <anchored width="0" height="0">
-          <top />
-          <right />
-        </anchored>
-        <invisible />
-      </genericcontrol>
-      <button_idelete name="idelete">
-        <anchored width="20" height="20">
-          <top offset="2" />
-          <right parent="rightanchor" anchor="left" relation="relative" offset="0" />
-        </anchored>
-      </button_idelete>
-      <number_moon name="shift">
-        <anchored width="20" height="20">
-          <top offset="2" />
-          <right parent="rightanchor" anchor="left" relation="relative" offset="-10" />
-        </anchored>
-        <delaykeyupdate />
-        <tabtarget prev="period" />
-        <default>0</default>
-      </number_moon>
-      <number_moon name="period">
-        <anchored width="30" height="20">
-          <top offset="2" />
-          <right parent="shift" anchor="left" relation="relative" offset="-10" />
-        </anchored>
-        <tabtarget next="shift" prev="name"/>
-        <default>30</default>
-      </number_moon>
-      <string_textlistitem name="name">
-        <anchored position="insidetopleft" offset="10,2" height="20">
-          <right parent="period" anchor="left" relation="relative" offset="-10" />
-        </anchored>
-        <tabtarget next="period" />
-      </string_textlistitem>
-    </sheetdata>
-  </windowclass>
+	
+	<!-- This defines a single Moon entry for the Moon Tracker Configuration window -->
+	<windowclass name="moonitem">
+		<margins control="0,0,0,2" />
+		<sheetdata>
+			<genericcontrol name="rightanchor">
+				<anchored width="0" height="0">
+					<top />
+					<right />
+				</anchored>
+				<invisible />
+			</genericcontrol>
+			<button_idelete name="idelete">
+				<anchored width="20" height="20">
+					<top offset="2" />
+					<right parent="rightanchor" anchor="left" relation="relative" offset="0" />
+				</anchored>
+			</button_idelete>
+			<number_moon name="shift">
+				<anchored width="20" height="20">
+					<top offset="2" />
+					<right parent="rightanchor" anchor="left" relation="relative" offset="-10" />
+				</anchored>
+				<delaykeyupdate />
+				<tabtarget prev="period" />
+				<default>0</default>
+			</number_moon>
+			<number_moon name="period">
+				<anchored width="30" height="20">
+					<top offset="2" />
+					<right parent="shift" anchor="left" relation="relative" offset="-10" />
+				</anchored>
+				<tabtarget next="shift" prev="name"/>
+				<default>30</default>
+			</number_moon>
+			<string_textlistitem name="name">
+				<anchored position="insidetopleft" offset="10,2" height="20">
+					<right parent="period" anchor="left" relation="relative" offset="-10" />
+				</anchored>
+				<tabtarget next="period" />
+			</string_textlistitem>
+		</sheetdata>
+	</windowclass>
 </root>

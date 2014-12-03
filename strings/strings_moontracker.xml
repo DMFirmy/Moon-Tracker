@@ -1,16 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<!-- 
-  Please see the license.html file included with this distribution for 
-  attribution and copyright information.
--->
-
 <root>
-  <string name="moontracker_tooltip_moonbutton">Configure Campaign Moons</string>
-  <string name="moontracker_configuration_window_title">Moon Tracker Configuration</string>
-  <string name="moontracker_configuration_period_header">Period</string>
-  <string name="moontracker_configuration_name_header">Moon Name</string>
-  <string name="moontracker_configuration_shift_header">Shift</string>
-  <string name="moontracker_configuration_period_tooltip">The number of days between one new moon and the next.</string>
-  <string name="moontracker_configuration_shift_tooltip">The number of phases to shift the moon's cycle.</string>
+	<string name="moontracker_tooltip_moonbutton">Configure Campaign Moons</string>
+	<string name="moontracker_configuration_window_title">Moon Tracker Configuration</string>
+	<string name="moontracker_configuration_period_header">Period</string>
+	<string name="moontracker_configuration_name_header">Moon Name</string>
+	<string name="moontracker_configuration_shift_header">Shift</string>
+	<string name="moontracker_configuration_period_tooltip">The number of days between one new moon and the next.</string>
+	<string name="moontracker_configuration_shift_tooltip">The number of phases to shift the moon's cycle.</string>
 </root>

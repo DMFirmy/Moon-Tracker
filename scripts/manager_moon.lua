@@ -10,7 +10,6 @@ local aMoonPhases = { -- String names for each moon phase
 --- implementation of this file does not perform.
 ---
 function onInit()
-
 	-- send launch message
 	local msg = {sender = "", font = "emotefont"};
 	msg.text = "DMFirmy's Moon Tracker loaded.";
@@ -80,6 +79,9 @@ function getMoons()
 	return aMoons;
 end
 
+---
+--- This function is used to sort two moon database nodes. It sorts first by period, then by name.
+---
 function sortMoons(a, b)
 	local aPeriod = a.getChild("period").getValue();
 	local bPeriod = b.getChild("period").getValue();

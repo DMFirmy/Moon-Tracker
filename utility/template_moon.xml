@@ -1,42 +1,46 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <root>
-  <template name="close_moon">
-    <close>
-      <anchored>
-        <top offset="0" />
-        <right offset="-8" />
-      </anchored>
-    </close>
-  </template>
-  
-  <template name="list_moons">
-    <windowlist>
-      <script file="utility/scripts/moonlist.lua" />
-      <datasource>.</datasource>
-      <class>moonitem</class>
-      <allowdelete />
-    </windowlist>
-  </template>
-  
-  <template name="number_moon">
-    <basicnumber>
-      <nodrag />
-      <min>0</min>
-    </basicnumber>
-  </template>
+	<!-- This defines the Close button for the Moon Tracker Configuration window -->
+	<template name="close_moon">
+		<close>
+			<anchored>
+				<top offset="0" />
+				<right offset="-8" />
+			</anchored>
+		</close>
+	</template>
 
-  <template name="scrollbar_moons">
-    <scrollbar>
-      <anchored to="moons" />
-      <target>moons</target>
-    </scrollbar>
-  </template>
+	<!-- This defines the list of individual moon entries for the Moon Tracker Configuration window -->
+	<template name="list_moons">
+		<windowlist>
+			<script file="utility/scripts/moonlist.lua" />
+			<datasource>.</datasource>
+			<class>moonitem</class>
+			<allowdelete />
+		</windowlist>
+	</template>
 
-  <template name="scrollbar_moonlist">
-    <scrollbar>
-      <anchored to="moonlist" />
-      <target>moonlist</target>
-    </scrollbar>
-  </template>
-  
+	<!-- This defines the numeric input used for the Period and Shift values on the Moon Tracker Configuration window -->
+	<template name="number_moon">
+		<basicnumber>
+			<nodrag />
+			<min>0</min>
+		</basicnumber>
+	</template>
+
+	<!-- This defines the scrollbar for the list of moon entries on the Moon Tracker Configuration window -->
+	<template name="scrollbar_moonlist">
+		<scrollbar>
+			<anchored to="moonlist" />
+			<target>moonlist</target>
+		</scrollbar>
+	</template>
+
+	<!-- The defines the scrollbar for the moon phase display on the Clanedar window -->
+	<template name="scrollbar_moons">
+		<scrollbar>
+			<anchored to="moons" />
+			<target>moons</target>
+		</scrollbar>
+	</template>
 </root>

@@ -21,32 +21,31 @@
 				</script>
 			</buttoncontrol>
 
-      <!-- This button will open up the Moon Configuration window -->
-      <buttoncontrol name="button_moon">
-        <anchored to="dateframe" position="insidetopleft" offset="55,22" width="25" height="25" />
-        <icon normal="button_moon" pressed="button_moon_down" />
-        <tooltip textres="moontracker_tooltip_moonbutton" />
-        <gmvisibleonly />
-        <script>
-          <script>
-            function onButtonPress()
-                local oNode = DB.findNode("moons.moonlist");
-                if oNode then
-                        local oWindow = Interface.openWindow("moontracker_configuration",oNode.getNodeName());
-                        oWindow.registerCloseCallback(onMoonTrackerConfigurationClosed)
-                        if oWindow and
-                                oWindow.name then
-                                oWindow.name.setFocus();
-                        end
-                end
-            end
-            
-            function onMoonTrackerConfigurationClosed()
-                window.populateMoonPhaseDisplay();
-            end
-          </script>
-        </script>
-      </buttoncontrol>
+			<!-- This button will open up the Moon Configuration window -->
+			<buttoncontrol name="button_moon">
+				<anchored to="dateframe" position="insidetopleft" offset="55,22" width="25" height="25" />
+				<icon normal="button_moon" pressed="button_moon_down" />
+				<tooltip textres="moontracker_tooltip_moonbutton" />
+				<gmvisibleonly />
+				<script>
+					<script>
+						function onButtonPress()
+							local oNode = DB.findNode("moons.moonlist");
+							if oNode then
+								local oWindow = Interface.openWindow("moontracker_configuration",oNode.getNodeName());
+								oWindow.registerCloseCallback(onMoonTrackerConfigurationClosed);
+								if oWindow and oWindow.name then
+									oWindow.name.setFocus();
+								end
+							end
+						end
+
+						function onMoonTrackerConfigurationClosed()
+							window.populateMoonPhaseDisplay();
+						end
+					</script>
+				</script>
+			</buttoncontrol>
 
 			<hn name="currentday" source="current.day">
 				<script>
@@ -139,24 +138,24 @@
 						DB.addHandler("calendar.current.hour", "onUpdate", onSourceChanged);
 						onSourceChanged();
 					end
-					
+
 					function onClose()
 						DB.removeHandler("calendar.current.hour", "onUpdate", onSourceChanged);
 					end
-					
+
 					function onSourceChanged()
 						local nHour, sPhase = CalendarManager.getDisplayHour();
 						setValue(string.format("%2d", nHour));
 						window.currentphase.setValue(sPhase);
 					end
-					
+
 					function onWheel(n)
 						if not OptionsManager.isMouseWheelEditEnabled() then
-							return false;
-						end
-						
-						CalendarManager.adjustHours(n);
-						return true;
+						return false;
+					end
+
+					CalendarManager.adjustHours(n);
+					return true;
 					end
 				</script>
 			</label>
@@ -179,21 +178,21 @@
 						DB.addHandler("calendar.current.minute", "onUpdate", onSourceChanged);
 						onSourceChanged();
 					end
-					
+
 					function onClose()
 						DB.removeHandler("calendar.current.minute", "onUpdate", onSourceChanged);
 					end
-					
+
 					function onSourceChanged()
 						setValue(string.format("%02d", DB.getValue("calendar.current.minute", 0)));
 					end
-					
+
 					function onWheel(n)
 						if not OptionsManager.isMouseWheelEditEnabled() then
-							return false;
-						end
-						
-						CalendarManager.adjustMinutes(n);
+						return false;
+					end
+
+					CalendarManager.adjustMinutes(n);
 						return true;
 					end
 				</script>
@@ -216,26 +215,26 @@
 				</script>
 			</buttoncontrol>
 
-      <!-- This list shows the phases for each moon, if they are defined.-->
-      <windowlist name="moons">
-        <bounds>25,75,-30,30</bounds>
-        <frame name="groupbox" offset="15,15,20,15" />
-        <class>moonphase</class>
-        <columns width="155" fillwidth="true" />
-        <skipempty />
-        <script>
-            function addEntry(oMoon, nEpoch)
-	              local oWindow = createWindow();
-	              local phase = MoonManager.calculatePhase(oMoon, nEpoch);
-                local name = MoonManager.getPhaseName(phase);
-		            oWindow["name"].setValue(name);
-		            oWindow["moonname"].setValue(oMoon.getChild("name").getValue());
-                oWindow["phaseicon"].setIcon("moonphase"..tostring(phase));
-	              return oWindow;
-            end
-        </script>
-      </windowlist>
-      <scrollbar_moons />
+			<!-- This list shows the phases for each moon, if they are defined.-->
+			<windowlist name="moons">
+				<bounds>25,75,-30,30</bounds>
+				<frame name="groupbox" offset="15,15,20,15" />
+				<class>moonphase</class>
+				<columns width="155" fillwidth="true" />
+				<skipempty />
+				<script>
+					function addEntry(oMoon, nEpoch)
+						local oWindow = createWindow();
+						local phase = MoonManager.calculatePhase(oMoon, nEpoch);
+						local name = MoonManager.getPhaseName(phase);
+						oWindow["name"].setValue(name);
+						oWindow["moonname"].setValue(oMoon.getChild("name").getValue());
+						oWindow["phaseicon"].setIcon("moonphase"..tostring(phase));
+						return oWindow;
+					end
+				</script>
+			</windowlist>
+			<scrollbar_moons />
 
 			<windowlist name="list">
 				<bounds>25,135,-30,-65</bounds>
@@ -246,7 +245,7 @@
 				<script file="utility/scripts/calendar_period_list.lua" />
 			</windowlist>
 			<scrollbar_list />
-			
+
 			<genericcontrol name="logframe">
 				<bounds>10,-50,-10,50</bounds>
 				<frame name="groupbox" />
@@ -263,7 +262,6 @@
 					end
 				</script>
 			</button_text>
-      
 			<button_text name="button_addlog">
 				<anchored to="logframe" position="insidetopleft" offset="20,15" width="100" height="20" />
 				<state textres="calendar_button_logadd" />
@@ -274,7 +272,7 @@
 					end
 				</script>
 			</button_text>
-			
+
 			<button_text name="button_viewall">
 				<anchored to="logframe" position="insidetopright" offset="20,15" width="70" height="20" />
 				<state textres="calendar_button_logviewall" />
@@ -287,87 +285,30 @@
 		</sheetdata>
 	</windowclass>
 
-	<windowclass name="calendar_day">
-		<sizelimits>
-			<minimum width="20" height="20" />
-			<maximum width="20" height="20" />
-		</sizelimits>
-		<script file="utility/scripts/calendar_day.lua" />
+	<!-- This represents the phase for the selected calendar day for a single moon. -->
+	<windowclass name="moonphase">
 		<sheetdata>
-			<hnc name="day" />
-
-			<genericcontrol name="icon_gmevent">
-				<anchored position="insidebottomleft" width="8" height="8" />
-				<icon>dot_blue</icon>
-				<invisible />
+			<anchor_column name="columnanchor" />
+			<simplestring name="moonname">
+				<anchored>
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="5" />
+					<left parent="columnanchor" anchor="right" relation="relative" offset="10" />
+					<right />
+				</anchored>
+			</simplestring>
+			<simplestring name="name">
+				<anchored>
+					<top parent="moonname" anchor="bottom" relation="relative" offset="0" />
+					<left parent="moonname" anchor="left" relation="relative" offset="0" />
+					<right />
+				</anchored>
+			</simplestring>
+			<genericcontrol name="phaseicon">
+				<anchored width="24" height="24">
+					<top parent="columnanchor" anchor="bottom" relation="absolute" offset="5" />
+					<left parent="columnanchor" anchor="right" relation="absolute" offset="115" />
+				</anchored>
 			</genericcontrol>
-			<genericcontrol name="icon_event">
-				<anchored position="insidebottomright" width="8" height="8" />
-				<icon>dot_red</icon>
-				<invisible />
-			</genericcontrol>
-
-			<stringcontrol name="label_day">
-				<bounds>0,3,20,16</bounds>
-				<stateframe>
-					<hover name="fieldfocus" offset="4,5,4,5" />
-				</stateframe>
-				<font>calendarday</font>
-				<underlineoffset>-1</underlineoffset>
-				<center />
-				<nodrag />
-				<nodragselect />
-				<readonly />
-				<script>
-					function onClickDown(button,x,y)
-						return true;
-					end
-					
-					function onClickRelease(x,y)
-						local nDay = window.day.getValue();
-						if nDay > 0 then
-							local nMonth = window.windowlist.window.month.getValue();
-							window.windowlist.window.windowlist.window.setSelectedDate(nMonth, nDay);
-						end
-						return true;
-					end
-
-					function onDoubleClick(button,x,y) 
-						local nDay = window.day.getValue();
-						if nDay > 0 then
-							local nMonth = window.windowlist.window.month.getValue();
-							window.windowlist.window.windowlist.window.addLogEntry(nMonth, nDay);
-						end
-					end
-				</script>
-			</stringcontrol>
 		</sheetdata>
 	</windowclass>
-
-  <!-- This represents the phase for the selected calendar day for a single moon. -->
-  <windowclass name="moonphase">
-    <sheetdata>
-      <anchor_column name="columnanchor" />
-      <simplestring name="moonname">
-        <anchored>
-          <top parent="columnanchor" anchor="bottom" relation="relative" offset="5" />
-          <left parent="columnanchor" anchor="right" relation="relative" offset="10" />
-          <right />
-        </anchored>
-      </simplestring>
-      <simplestring name="name">
-        <anchored>
-          <top parent="moonname" anchor="bottom" relation="relative" offset="0" />
-          <left parent="moonname" anchor="left" relation="relative" offset="0" />
-          <right />
-        </anchored>
-      </simplestring>
-      <genericcontrol name="phaseicon">
-        <anchored width="24" height="24">
-          <top parent="columnanchor" anchor="bottom" relation="absolute" offset="5" />
-          <left parent="columnanchor" anchor="right" relation="absolute" offset="115" />
-        </anchored>
-      </genericcontrol>
-    </sheetdata>
-  </windowclass>
 </root>

@@ -1,18 +1,11 @@
-
----
---- Arrays for storing callback functions
----
 local aLunarDayCalc = {};
 local aMonthVarCalc = {};
 local callbacks = {};
 
----
---- Initialization
----
 function onInit()
 	aLunarDayCalc["gregorian"] = calcGregorianLunarDay;
 	aMonthVarCalc["gregorian"] = calcGregorianMonthVar;
-		
+	
 	DB.addHandler("calendar.data", "onChildAdded", onCalendarChanged);
 end
 

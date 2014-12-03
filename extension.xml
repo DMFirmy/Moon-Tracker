@@ -1,37 +1,12 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-
-<root version="2.9">
+<root version="3.0">
   <properties>
     <name>Moon Tracker</name>
-    <version>1.529</version>
+    <version>1.539</version>
     <author>DMFirmy</author>
     <description>An extension for tracking the phases of the moons for your campaign world.</description>
-    <ruleset>
-      <name>CoreRPG</name>
-    </ruleset>
-    <ruleset>
-      <name>3.5E</name>
-    </ruleset>
-    <ruleset>
-      <name>PFRPG</name>
-    </ruleset>
-    <ruleset>
-      <name>4E</name>
-    </ruleset>
-    <ruleset>
-      <name>5E</name>
-    </ruleset>
-    <ruleset>
-      <name>Numenera</name>
-    </ruleset>
-    <ruleset>
-      <name>Castles and Crusades</name>
-    </ruleset>
-    <ruleset>
-      <name>Theon</name>
-    </ruleset>
+    <ruleset>Any</ruleset>
   </properties>
-
   <base>
 	  <!-- Graphics -->
     <includefile source="graphics/graphics_frames.xml" />
@@ -50,5 +25,4 @@
     <includefile source="utility/utility_moon.xml" />
 
   </base>
-
 </root>

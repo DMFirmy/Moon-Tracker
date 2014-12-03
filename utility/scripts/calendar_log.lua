@@ -8,6 +8,9 @@ local nSelMonth = 0;
 local nSelDay = 0;
 local bEnableBuild = true;
 
+---
+--- This function has been modified to add some new event handlers.
+---
 function onInit()
 	DB.addHandler("calendar.log", "onChildUpdate", onEventsChanged);
 	DB.addHandler("moons.moonlist","onChildAdded", onMoonCountUpdated);
@@ -20,6 +23,9 @@ function onInit()
 	onDateChanged();
 end								
 
+---
+--- This function has been modified to remove the new handlers added in the onInit() function.
+---
 function onClose()
 	DB.removeHandler("calendar.log", "onChildUpdate", onEventsChanged);
 	DB.removeHandler("moons.moonlist","onChildAdded", onMoonCountUpdated);
@@ -53,6 +59,9 @@ function onEventsChanged(bListChanged)
 	end
 end
 
+---
+--- This function has been modified to add a call to the populateMoonPhaseDisplay() function.
+---
 function setSelectedDate(nMonth, nDay)
 	nSelMonth = nMonth;
 	nSelDay = nDay;
@@ -121,6 +130,10 @@ function onDateChanged()
 	list.scrollToCampaignDate();
 end
 
+---
+--- This function has been modified to add calls to the functions
+--- MoonManager.calculateEpochDay() and setMoonFrame(),
+---
 function onYearChanged()
 	MoonManager.calculateEpochDay();
 	setMoonFrame();
@@ -128,6 +141,10 @@ function onYearChanged()
 	onDateChanged();
 end
 
+---
+--- This function has been modified to add calls to the functions
+--- MoonManager.calculateEpochDay() and setMoonFrame(),
+---
 function onCalendarChanged()
 	MoonManager.calculateEpochDay();
 	setMoonFrame();
@@ -153,7 +170,7 @@ function updateDisplay()
 		button_view.setVisible(false);
 		button_addlog.setVisible(true);
 	end
-
+	
 	for _,v in pairs(list.getWindows()) do
 		local nMonth = v.month.getValue();
 
